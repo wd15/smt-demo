@@ -4,15 +4,13 @@ import timeit
 import numpy as np
 import fipy as fp
 
-with open('params.json', 'rb') as fp:
-    params = json.load(fp)
+with open('params.json', 'rb') as ff:
+    params = json.load(ff)
     
 N = params['N']
 iterations = params['iterations']
 suite = params['suite']
 
-print N
-print type(iterations)
 attempts = 3
 
 setup_str = '''
@@ -22,7 +20,7 @@ np.random.seed(1)
 L = 1.
 N = {N:d}
 m = fp.GmshGrid3D(nx=N, ny=N, nz=N, dx=L / N, dy=L / N, dz=L / N)
-v0 = np.random(m.numberOfCells)
+v0 = np.random.random(m.numberOfCells)
 v = fp.CellVariable(mesh=m)
 v0 = np.resize(v0, len(v)) ## Gmsh doesn't always give us the correct sized grid!
 eqn = fp.TransientTerm(1e-3) == fp.DiffusionTerm()

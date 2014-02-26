@@ -1,4 +1,4 @@
-# FiPy Efficiency
+# Sumatra Demonstration
 
 ## Authors
 

@@ -1,15 +1,29 @@
 
+"""
+Usage: fipy_timing.py [<jsonfile>]
+
+"""
+
+from docopt import docopt
 import json
 import timeit
 import numpy as np
 import fipy as fp
+import os
 
-with open('params.json', 'rb') as ff:
-    params = json.load(ff)
+arguments = docopt(__doc__, version='Run FiPy timing')
+jsonfile = arguments['<jsonfile>']
+
+if jsonfile:
+    with open(jsonfile, 'rb') as ff:
+        params = json.load(ff)
+else:
+    params = dict()
     
-N = params['N']
-iterations = params['iterations']
-suite = params['suite']
+N = params.get('N', 10)
+iterations = params.get('iterations', 100)
+suite = params.get('suite', 'trilinos')
+sumatra_label = params.get('sumatra_label', '')
 
 attempts = 3
 
@@ -42,4 +56,6 @@ timer = timeit.Timer(timeit_str, setup=setup_str.format(N=N, suite=suite, iterat
 times = timer.repeat(attempts, 1)
 
 if fp.parallelComm.procID == 0:
-    print min(times)
+    filepath = os.path.join('Data', sumatra_label)
+    filename = 'data.txt'
+    np.savetxt(os.path.join(filepath, filename), times)

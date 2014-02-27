@@ -15,7 +15,7 @@ The repository is licensed with the FreeBSD License, see
 [LICENSE.txt](LICENSE.txt).
 
 ## Requirements
-x
+
 The [REQUIREMENTS.txt](REQUIREMENTS.txt) file has a complete list of
 packages in the Python environment during development. The most
 important of these are listed. The version numbers are mostly not
